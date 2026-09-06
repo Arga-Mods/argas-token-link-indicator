@@ -1,0 +1,40 @@
+{
+  "id": "argas-token-link-indicator",
+  "title": "Arga's Token Link Indicator",
+  "description": "See at a glance whether a token is linked to its Actor. A chain icon in Actor sheet headers, the Token HUD (GM only) and the Actors sidebar: left-click toggles the link, right-click opens token configuration, middle-click reveals the Actor. System-agnostic, Foundry V13-V14, English and German.",
+  "version": "14.0.1",
+  "authors": [
+    {
+      "name": "Arga",
+      "url": "https://github.com/Arga-Mods"
+    }
+  ],
+  "url": "https://github.com/Arga-Mods/argas-token-link-indicator",
+  "bugs": "https://github.com/Arga-Mods/argas-token-link-indicator/issues",
+  "changelog": "https://github.com/Arga-Mods/argas-token-link-indicator/releases",
+  "readme": "https://github.com/Arga-Mods/argas-token-link-indicator/blob/main/README.md",
+  "manifest": "https://github.com/Arga-Mods/argas-token-link-indicator/releases/latest/download/module.json",
+  "download": "https://github.com/Arga-Mods/argas-token-link-indicator/releases/download/14.0.1/argas-token-link-indicator.zip",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14"
+  },
+  "esmodules": [
+    "scripts/argas-token-link-indicator.js"
+  ],
+  "styles": [
+    "styles/argas-token-link-indicator.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "lang/de.json"
+    }
+  ]
+}

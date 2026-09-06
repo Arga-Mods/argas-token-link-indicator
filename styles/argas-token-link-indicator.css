@@ -1,0 +1,247 @@
+.argas-tli-indicator {
+  --argas-tli-linked: #57c878;
+  --argas-tli-unlinked: #e65353;
+  align-items: center;
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: center;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.argas-tli-indicator.is-linked {
+  color: var(--argas-tli-linked);
+}
+
+.argas-tli-indicator.is-unlinked {
+  color: var(--argas-tli-unlinked);
+}
+
+.argas-tli-indicator.is-updating {
+  cursor: wait;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.argas-tli-sheet-indicator {
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-size: 0.9rem;
+  margin-inline: 0.1rem;
+  min-block-size: 1.75rem;
+  min-inline-size: 1.9rem;
+  padding: 0.3rem 0.4rem;
+}
+
+.argas-tli-sheet-indicator:hover,
+.argas-tli-sheet-indicator:focus-visible {
+  background: rgb(255 255 255 / 12%);
+  outline: none;
+}
+
+/* Light sheet headers (e.g. dnd5e's beige) get the darker palette. The class
+   comes from a runtime measurement of the real header background, because the
+   system's sheet design decides this, not Foundry's colour scheme. */
+.argas-tli-sheet-indicator.argas-tli-on-light {
+  --argas-tli-linked: #1f8a47;
+  --argas-tli-unlinked: #c02b2b;
+}
+
+.argas-tli-sheet-indicator.argas-tli-on-light:hover,
+.argas-tli-sheet-indicator.argas-tli-on-light:focus-visible {
+  background: rgb(0 0 0 / 8%);
+}
+
+.argas-tli-sheet-indicator.is-prototype::after,
+.argas-tli-directory-indicator.is-prototype::after {
+  content: "P";
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  margin-inline-start: 0.15rem;
+  opacity: 0.9;
+  position: relative;
+  top: 0.25em;
+}
+
+.argas-tli-directory-indicator {
+  /* Crisp, theme-aware colors: darker on light sidebars, bright on dark ones.
+     No text-shadow here - at this small size it reads as blur. */
+  --argas-tli-linked: light-dark(#1f8a47, #57c878);
+  --argas-tli-unlinked: light-dark(#c02b2b, #e65353);
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-size: 0.9em;
+  padding: 0.1rem 0.25rem;
+  vertical-align: middle;
+}
+
+.argas-tli-directory-indicator:hover,
+.argas-tli-directory-indicator:focus-visible {
+  background: light-dark(rgb(0 0 0 / 8%), rgb(255 255 255 / 15%));
+  outline: none;
+}
+
+/* Keep the indicator visible next to long names: the name element becomes a
+   flex row, the name text shrinks with an ellipsis, the indicator does not. */
+.directory-item .entry-name:has(> .argas-tli-directory-indicator) {
+  align-items: center;
+  display: flex;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.directory-item .entry-name:has(> .argas-tli-directory-indicator)
+  > :not(.argas-tli-directory-indicator) {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.argas-tli-hud-indicator {
+  cursor: pointer;
+}
+
+.argas-tli-hud-indicator.is-linked {
+  border-color: var(--argas-tli-linked);
+}
+
+.argas-tli-hud-indicator.is-unlinked {
+  border-color: var(--argas-tli-unlinked);
+}
+
+.argas-tli-hud-indicator:hover,
+.argas-tli-hud-indicator:focus-visible {
+  filter: brightness(1.2);
+  outline: none;
+}
+
+/* Flash the sidebar entry that a middle-click revealed:
+   six pulses with a ring and a glow, fading out over three seconds. */
+.directory-item.argas-tli-directory-flash {
+  --argas-tli-flash: light-dark(#1f8a47, #57c878);
+  animation: argas-tli-directory-flash 3s ease-out;
+  border-radius: 4px;
+}
+
+@keyframes argas-tli-directory-flash {
+  0%, 6%, 12%, 18%, 24%, 30% {
+    background-color: color-mix(
+      in srgb,
+      var(--argas-tli-flash) 60%,
+      transparent
+    );
+    box-shadow:
+      0 0 0 2px var(--argas-tli-flash),
+      0 0 12px 2px color-mix(
+        in srgb,
+        var(--argas-tli-flash) 70%,
+        transparent
+      );
+  }
+
+  3%, 9%, 15%, 21%, 27% {
+    background-color: transparent;
+    box-shadow:
+      0 0 0 2px color-mix(
+        in srgb,
+        var(--argas-tli-flash) 25%,
+        transparent
+      ),
+      0 0 0 0 transparent;
+  }
+
+  70% {
+    background-color: color-mix(
+      in srgb,
+      var(--argas-tli-flash) 45%,
+      transparent
+    );
+    box-shadow:
+      0 0 0 2px var(--argas-tli-flash),
+      0 0 8px 1px color-mix(
+        in srgb,
+        var(--argas-tli-flash) 45%,
+        transparent
+      );
+  }
+
+  100% {
+    background-color: transparent;
+    box-shadow:
+      0 0 0 2px transparent,
+      0 0 0 0 transparent;
+  }
+}
+
+/* Render \n in this module's tooltip texts as line breaks. The class is set
+   per indicator via data-tooltip-class, so other tooltips stay untouched. */
+/* Foundry's locked tooltip is a clone without the #tooltip id, so it is
+   matched separately here to keep the same layout. */
+#tooltip.argas-tli-tooltip,
+.locked-tooltip.argas-tli-tooltip {
+  /* Size the box to its longest line so the wording only breaks at the
+     explicit \n, overriding Foundry's narrower default maximum width. */
+  max-width: min(34rem, 90vw);
+  text-align: start;
+  /* Clear the pointer cursor: push the tooltip further below the indicator
+     so the hand icon does not cover the first line of text. */
+  transform: translateY(16px);
+  white-space: pre-line;
+  width: max-content;
+}
+
+/* Raise only the context notice created by this module. */
+#notifications .argas-tli-context-notification {
+  transform: translateY(-76px);
+}
+
+/* Two-line buttons in the token and prototype configuration windows: icon and
+   core wording keep the first line together, the module's explanation takes a
+   full-width line below. Foundry fixes the button height, so it is released
+   here; stretching the footer row keeps neighbouring buttons equally tall when
+   one explanation wraps. */
+.form-footer.argas-tli-config-footer {
+  align-items: stretch;
+}
+
+button.argas-tli-two-line-button {
+  /* Keep both lines together in the middle: a stretched button (see above)
+     would otherwise spread its flex lines across the full height. */
+  align-content: center;
+  flex-wrap: wrap;
+  height: auto;
+  min-height: var(--button-size);
+  padding-block: 0.3rem;
+  row-gap: 0.1rem;
+}
+
+.argas-tli-button-note {
+  flex: 0 0 100%;
+  font-size: var(--font-size-12, 0.75rem);
+  line-height: 1.25;
+  opacity: 0.85;
+  text-align: center;
+  white-space: normal;
+}
+
+/* Lead-in of the overwrite warning; readable on light and dark dialogs. */
+.argas-tli-warning {
+  color: light-dark(#c02b2b, #e65353);
+  font-weight: 700;
+}
+
+/* Foundry gives a setting's label a narrow share of its row (flex: 1), so a
+   long title plus the icons other modules prepend to it wraps onto a second
+   line. Let the label claim the width it needs instead. */
+#settings-config .form-group.argas-tli-setting > label {
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
